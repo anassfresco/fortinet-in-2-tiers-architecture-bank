@@ -1,0 +1,269 @@
+
+
+
+en 
+conf t
+ip routing 
+
+
+
+
+
+vlans
+----------------------------------------------
+
+
+vlan 10,20,30,40,50,60,70,80,90,100,110,120,130,131
+
+
+----------------------------------------------
+
+
+no logging console 
+
+ether chanel
+------------------------------------------------
+
+conf t 
+interface port-channel 1 
+switchport trunk encapsulation dot1q
+switchport mode trunk 
+exit
+
+-------------
+
+
+
+vrf
+----------------------------------
+
+conf t
+vrf definition vr1
+description floor1
+address-family ipv4
+end
+conf t
+vrf definition vr2
+description floor2
+address-family ipv4
+end
+
+
+
+
+
+--------------------------------------------------------------
+conf t
+
+interface e 0/0
+channel-group 1 mode active
+exit 
+
+
+interface e 1/1
+channel-group 1 mode active 
+
+exit
+
+-------------------------------------------------
+
+spanning tree
+-----------------------------------------------
+
+
+spanning-tree vlan 10,20,30,40,50,60 root primary
+spanning-tree vlan 70,80,90,100,110,120 root secondary
+
+
+
+-------------------------------------------
+
+trunk
+------------------------------------------
+interface range e 0/0-3
+
+switchport trunk encapsulation dot1q
+switchport mode trunk 
+
+exit
+
+interface range e 1/0-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+
+interface  range e 2/0-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+exit
+
+
+interface range e 3/0-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+
+exit
+
+--------------------------------------------
+
+vlans:
+---------------------------------------=---
+
+
+interface vlan 10
+
+
+no shutdown
+vrf forwarding vr1
+ip address 10.0.10.253 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.10.252
+standby priority 130
+
+exit
+
+
+
+interface vlan 20
+
+no shutdown 
+vrf forwarding vr1
+ip helper-address 10.0.120.241
+ip address 10.0.20.254 255.255.255.0
+standby ip 10.0.20.252
+standby priority 130
+
+exit
+
+interface vlan 30
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.30.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.30.252
+standby priority 130
+exit
+
+interface vlan 40
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.40.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.40.252
+standby priority 130
+exit
+
+interface vlan 50
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.50.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.50.252 
+standby priority 130
+exit
+
+interface vlan 60
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.60.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.60.252
+standby priority 130
+
+
+exit
+interface vlan 70 
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.70.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.70.252
+
+exit
+
+interface vlan 80 
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.80.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.80.252
+
+
+exit
+
+interface vlan 90 
+
+no shutdown 
+vrf forwarding vr1
+ip address 10.0.90.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.90.252
+
+exit
+
+interface vlan 100 
+
+no shutdown 
+vrf forwarding vr2
+ip address 10.0.100.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.100.252
+
+exit
+
+interface vlan 110 
+
+no shutdown 
+vrf forwarding vr2
+ip address 10.0.110.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.110.252
+
+exit
+
+interface vlan 120 
+
+no shutdown 
+vrf forwarding vr2
+ip address 10.0.120.254 255.255.255.0
+ip helper-address 10.0.120.241
+standby ip 10.0.120.252
+
+exit
+
+interface vlan 130
+
+no shutdown 
+vrf forwarding vr1
+ip address 170.16.0.1 255.255.255.248
+standby ip 170.16.0.3
+standby priority 130
+
+interface vlan 131
+
+no shutdown 
+vrf forwarding vr2
+ip address 170.16.0.9 255.255.255.248
+standby ip 170.16.0.11
+
+
+
+
+
+
+
+
+
+routing
+
+-------------------
+
+
+ip route vrf vr1 0.0.0.0 0.0.0.0 172.16.0.4
+ip route vrf vr2 0.0.0.0 0.0.0.0 172.16.0.12
